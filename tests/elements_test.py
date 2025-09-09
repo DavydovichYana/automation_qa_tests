@@ -1,7 +1,8 @@
+import random
 import time
 
 from pages.base_page import BasePage
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
 
 
 class TestElements:
@@ -38,3 +39,24 @@ class TestElements:
         assert output_yes == 'Yes', "Yes не выбран"
         assert output_impressive == 'Impressive', "Impressive не выбран"
         assert output_no == 'No', "No не выбран"
+
+    def test_web_table_add_person(self, driver):
+        web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+        web_table_page.open()
+        added_people_list = web_table_page.add_new_person()
+        table_result = web_table_page.check_new_added_person()
+        print(added_people_list)
+        print(table_result)
+        for new_person in added_people_list:
+            assert new_person in table_result
+
+    def test_web_page_search_person(self, driver):
+        #реализован полный поиск, а еще можно сделать по частичному совпадению
+        web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+        web_table_page.open()
+        added_people_list = web_table_page.add_new_person()
+        random_added_person = random.choice(added_people_list)
+        keyword = random_added_person[random.randint(0, len(random_added_person) - 1)]
+        web_table_page.search_some_person(keyword)
+        searched_person = web_table_page.check_searched_person()
+        assert keyword in searched_person, "Персона не найдена в таблице"
