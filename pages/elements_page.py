@@ -89,7 +89,7 @@ class WebTablePage(BasePage):
     locators = WebTablePageLocators()
 
     def add_new_person(self):
-        count = randint(1,5)
+        count = randint(1,2)
         added_people_list = []
         while count != 0:
             person_info = next(generated_person())
@@ -131,5 +131,32 @@ class WebTablePage(BasePage):
         row = delete_button.find_element(By.XPATH, self.locators.ROW_PARENT)
         return row.text.splitlines()
 
+    def update_person_info(self):
+        #todo сделать метод универсальным для разных полей
+        person_info = next(generated_person())
+        age = person_info.age
+        self.element_is_visible(self.locators.EDIT_BUTTON).click()
+        self.element_is_visible(self.locators.AGE_INPUT).clear()
+        self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
+        self.element_is_visible(self.locators.SUBMIT_BUTTON).click()
+        return str(age)
+
     def delete_person(self):
         self.element_is_present(self.locators.DELETE_PERSON_BUTTON).click()
+
+    def check_deteted_person(self):
+        return self.element_is_present(self.locators.NO_ROWS_FOUND).text
+
+    def select_count_of_rows(self):
+        count=[5,10,20,25,50,100]
+        data = []
+        for x in count:
+            count_row_button = self.element_is_visible(self.locators.COUNT_ROW_LIST_BUTTON)
+            self.go_to_element(count_row_button)
+            count_row_button.click()
+
+            self.element_is_visible((By.CSS_SELECTOR, f"option[value='{x}']")).click()
+            list_rows = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
+
+            data.append(len(list_rows))
+        return data
