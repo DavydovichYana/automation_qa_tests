@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 
 from generator.generator import generated_person
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators
+    WebTablePageLocators, ButtonsPageLocators
 from pages.base_page import BasePage
 
 
@@ -35,8 +35,7 @@ class TextBoxPage(BasePage):
 
 
 class CheckBoxPage(BasePage):
-
-    locators  = CheckBoxPageLocators()
+    locators = CheckBoxPageLocators()
 
     def open_full_list(self):
         self.element_is_visible(self.locators.EXPAND_ALL_BUTTON).click()
@@ -45,7 +44,7 @@ class CheckBoxPage(BasePage):
         item_list = self.elements_are_visible(self.locators.ITEM_LIST)
         count = 21
         while count > 0:
-            item = item_list[randint(1,15)]
+            item = item_list[randint(1, 15)]
             if count > 0:
                 self.go_to_element(item)
                 item.click()
@@ -59,22 +58,21 @@ class CheckBoxPage(BasePage):
         for box in checked_list:
             title_item = box.find_element("xpath", self.locators.TITLE_ITEM)
             data.append(title_item.text)
-        return str(data).replace(" ","").replace(".doc","").lower()
-
+        return str(data).replace(" ", "").replace(".doc", "").lower()
 
     def get_output_result(self):
         result_list = self.elements_are_present(self.locators.OUTPUT_ITEMS)
         data = []
         for item in result_list:
             data.append(item.text)
-        return str(data).replace(" ","").lower()
+        return str(data).replace(" ", "").lower()
 
 
 class RadioButtonPage(BasePage):
     locators = RadioButtonPageLocators()
 
     def click_radio_button(self, choice):
-        choices =  {
+        choices = {
             'yes': self.locators.YES_RADIOBUTTON,
             'impressive': self.locators.IMPRESSIVE_RADIOBUTTON,
             'no': self.locators.NO_RADIOBUTTON}
@@ -89,7 +87,7 @@ class WebTablePage(BasePage):
     locators = WebTablePageLocators()
 
     def add_new_person(self):
-        count = randint(1,2)
+        count = randint(1, 2)
         added_people_list = []
         while count != 0:
             person_info = next(generated_person())
@@ -111,9 +109,8 @@ class WebTablePage(BasePage):
 
             self.element_is_visible(self.locators.SUBMIT_BUTTON).click()
             added_people_list.append([firstname, lastname, str(age), email, str(salary), department])
-            count-=1
+            count -= 1
         return added_people_list
-
 
     def check_new_added_person(self):
         people_list = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
@@ -132,7 +129,7 @@ class WebTablePage(BasePage):
         return row.text.splitlines()
 
     def update_person_info(self):
-        #todo сделать метод универсальным для разных полей
+        # todo сделать метод универсальным для разных полей
         person_info = next(generated_person())
         age = person_info.age
         self.element_is_visible(self.locators.EDIT_BUTTON).click()
@@ -148,7 +145,7 @@ class WebTablePage(BasePage):
         return self.element_is_present(self.locators.NO_ROWS_FOUND).text
 
     def select_count_of_rows(self):
-        count=[5,10,20,25,50,100]
+        count = [5, 10, 20, 25, 50, 100]
         data = []
         for x in count:
             count_row_button = self.element_is_visible(self.locators.COUNT_ROW_LIST_BUTTON)
@@ -160,3 +157,23 @@ class WebTablePage(BasePage):
 
             data.append(len(list_rows))
         return data
+
+
+class ButtonsPage(BasePage):
+    locators = ButtonsPageLocators()
+
+    def click_on_different_button(self, type_click):
+        if type_click == "double":
+            self.action_double_click(self.element_is_visible(self.locators.DOUBLE_BUTTON))
+            return self.check_clicked_button(self.locators.SUCCESS_DOUBLE)
+
+        if type_click == "right":
+            self.action_right_click(self.element_is_visible(self.locators.RIGHT_CLICK_BUTTON))
+            return self.check_clicked_button(self.locators.SUCCESS_RIGHT_CLICK)
+
+        if type_click == "click":
+            self.element_is_visible(self.locators.CLICK_ME_BUTTON).click()
+            return self.check_clicked_button(self.locators.SUCCESS_CLICK_ME)
+
+    def check_clicked_button(self, element):
+        return self.element_is_present(element).text
