@@ -1,14 +1,16 @@
 import base64
 import os
+import re
 import time
 from random import randint
 
 import requests
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 
 from generator.generator import generated_person, generated_file
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadLocators
+    WebTablePageLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadLocators, DynamicPropertiesPageLocators
 from pages.base_page import BasePage
 
 
@@ -230,3 +232,41 @@ class UploadDownloadPage(BasePage):
             f.close()
         os.remove(path_name_file)
         return check_file
+
+class DynamicPropertiesPage(BasePage):
+    locators = DynamicPropertiesPageLocators()
+
+    def check_changed_colors(self):
+        color_button = self.element_is_present(self.locators.COLOR_CHANGE_BUTTON)
+        color_button_before = color_button.value_of_css_property("color")
+
+        time_info = self.find_time_info()
+
+        time.sleep(time_info)
+        color_button_after = color_button.value_of_css_property("color")
+        return color_button_before, color_button_after
+
+    def check_appear_of_button(self):
+        try:
+            self.element_is_visible(self.locators.VISIBLE_AFTER_5S_BUTTON)
+        except TimeoutException:
+            return False
+        return True
+
+    def check_enable_button(self):
+        try:
+            enable_button = self.element_is_clickable(self.locators.TIME_INFO_BUTTON)
+        except TimeoutException:
+            return False
+        return True
+
+
+    def find_time_info(self):
+        time_info_button = self.element_is_visible(self.locators.TIME_INFO_BUTTON).text
+        time_info = int(re.findall(r'\d+', time_info_button)[0])
+        return time_info
+
+
+
+
+

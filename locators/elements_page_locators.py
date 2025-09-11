@@ -73,3 +73,9 @@ class UploadDownloadLocators:
     SUCCESS_UPLOAD_FILE = (By.ID, "uploadedFilePath")
 
     DOWNLOAD_FILE = (By.ID, "downloadButton")
+
+class DynamicPropertiesPageLocators:
+    COLOR_CHANGE_BUTTON = (By.ID, "colorChange")
+    VISIBLE_AFTER_5S_BUTTON = (By.ID, "visibleAfter")
+    TIME_INFO_BUTTON = (By.ID, "enableAfter")
+
