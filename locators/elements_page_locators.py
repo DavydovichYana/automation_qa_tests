@@ -63,3 +63,7 @@ class ButtonsPageLocators:
     SUCCESS_DOUBLE = (By.ID, "doubleClickMessage")
     SUCCESS_RIGHT_CLICK = (By.ID, "rightClickMessage")
     SUCCESS_CLICK_ME = (By.ID, "dynamicClickMessage")
+
+class LinksPageLocators:
+    SIMPLE_LINK = (By.ID, "simpleLink")
+    BAD_REQUEST_LINK = (By.ID, "bad-request")
