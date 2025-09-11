@@ -57,7 +57,7 @@ class WebTablePageLocators:
 class ButtonsPageLocators:
     DOUBLE_BUTTON = (By.ID, "doubleClickBtn")
     RIGHT_CLICK_BUTTON = (By.ID, "rightClickBtn")
-    CLICK_ME_BUTTON = (By. XPATH, '//button[text()="Click Me"]')
+    CLICK_ME_BUTTON = (By.XPATH, '//button[text()="Click Me"]')
 
     #result
     SUCCESS_DOUBLE = (By.ID, "doubleClickMessage")
@@ -67,3 +67,9 @@ class ButtonsPageLocators:
 class LinksPageLocators:
     SIMPLE_LINK = (By.ID, "simpleLink")
     BAD_REQUEST_LINK = (By.ID, "bad-request")
+
+class UploadDownloadLocators:
+    UPLOAD_FILE = (By.ID, "uploadFile")
+    SUCCESS_UPLOAD_FILE = (By.ID, "uploadedFilePath")
+
+    DOWNLOAD_FILE = (By.ID, "downloadButton")
