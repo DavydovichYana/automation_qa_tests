@@ -1,7 +1,5 @@
 import random
 import time
-
-from pages.base_page import BasePage
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
     UploadDownloadPage, DynamicPropertiesPage
 
@@ -146,6 +144,7 @@ class TestElements:
         dynamic_properties_page.open()
         enable = dynamic_properties_page.check_enable_button()
         assert enable is True, "Кнопка осталась задизейбленной"
+
 
 
 
