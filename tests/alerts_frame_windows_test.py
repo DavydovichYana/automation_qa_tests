@@ -1,7 +1,7 @@
 import time
 
 import pytest
-from pages.alerts_frame_windows_page import BrowserWindowPage, AlertPage, FramesPage, NestedFramesPage
+from pages.alerts_frame_windows_page import BrowserWindowPage, AlertPage, FramesPage, NestedFramesPage, ModalDialogPage
 
 
 class TestAlertsFrameWindow:
@@ -59,5 +59,14 @@ class TestAlertsFrameWindow:
         parent_text, child_text = nested_frame_page.check_nested_frame()
         assert parent_text == "Parent frame", 'Неверный текст в фрейме родителя'
         assert child_text == "Child Iframe", 'Неверный текст в фрейме ребенка'
+
+    def test_modal_dialogs(self,driver):
+        modal_dialogs_page = ModalDialogPage(driver, "https://demoqa.com/modal-dialogs")
+        modal_dialogs_page.open()
+        small, large = modal_dialogs_page.check_modal_dialog()
+        assert small[1] < large[1], 'Длина текста маленького мод.окна превышает длину текста большого мод.окна'
+        assert small[0] == 'Small Modal', 'Заголовок маленького мод.окна некорректен'
+        assert large[0] == 'Large Modal', 'Заголовок большого мод.окна некорректен'
+
 
 
