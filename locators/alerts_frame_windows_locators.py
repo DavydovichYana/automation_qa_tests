@@ -18,3 +18,9 @@ class FramesPageLocators:
     FIRST_FRAME = (By.ID, 'frame1')
     SECOND_FRAME = (By.ID, 'frame2')
     TITLE_FRAME = (By.ID, 'sampleHeading')
+
+class NestedFramesPageLocators:
+    PARENT_FRAME = (By.ID, 'frame1')
+    PARENT_TEXT = (By.CSS_SELECTOR, 'body')
+    CHILD_FRAME = (By.CSS_SELECTOR, 'body > iframe')
+    CHILD_TEXT = (By.CSS_SELECTOR, 'p')

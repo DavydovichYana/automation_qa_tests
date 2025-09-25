@@ -1,7 +1,7 @@
 import time
 
 import pytest
-from pages.alerts_frame_windows_page import BrowserWindowPage, AlertPage, FramesPage
+from pages.alerts_frame_windows_page import BrowserWindowPage, AlertPage, FramesPage, NestedFramesPage
 
 
 class TestAlertsFrameWindow:
@@ -52,3 +52,12 @@ class TestAlertsFrameWindow:
             assert result == ['500px','350px','This is a sample page'], 'Размер или текст фрейма не соответствуют ожидаемым'
         else:
             assert result == ['100px','100px','This is a sample page'], 'Размер или текст фрейма не соответствуют ожидаемым'
+
+    def test_nested_frames(self,driver):
+        nested_frame_page = NestedFramesPage(driver, "https://demoqa.com/nestedframes")
+        nested_frame_page.open()
+        parent_text, child_text = nested_frame_page.check_nested_frame()
+        assert parent_text == "Parent frame", 'Неверный текст в фрейме родителя'
+        assert child_text == "Child Iframe", 'Неверный текст в фрейме ребенка'
+
+
