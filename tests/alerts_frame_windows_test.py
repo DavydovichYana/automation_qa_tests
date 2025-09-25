@@ -1,7 +1,7 @@
 import time
 
 import pytest
-from pages.alerts_frame_windows_page import BrowserWindowPage, AlertPage
+from pages.alerts_frame_windows_page import BrowserWindowPage, AlertPage, FramesPage
 
 
 class TestAlertsFrameWindow:
@@ -41,3 +41,14 @@ class TestAlertsFrameWindow:
         alert_page.open()
         text, alert_text = alert_page.check_prompt_alert()
         assert alert_text == f"You entered {text}", "Неверный текст алерта"
+
+    @pytest.mark.parametrize("frame_num", ["frame1", "frame2"])
+    def test_frames(self,driver, frame_num):
+        frame_page = FramesPage(driver, "https://demoqa.com/frames")
+        frame_page.open()
+        result = frame_page.check_frame(frame_num)
+        print(result)
+        if frame_num == "frame1":
+            assert result == ['500px','350px','This is a sample page'], 'Размер или текст фрейма не соответствуют ожидаемым'
+        else:
+            assert result == ['100px','100px','This is a sample page'], 'Размер или текст фрейма не соответствуют ожидаемым'

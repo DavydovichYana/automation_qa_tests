@@ -1,7 +1,7 @@
 import time
 from random import randint
 
-from locators.alerts_frame_windows_locators import BrowserWindowPageLocators, AlertPageLocators
+from locators.alerts_frame_windows_locators import BrowserWindowPageLocators, AlertPageLocators, FramesPageLocators
 from pages.base_page import BasePage
 
 
@@ -50,4 +50,28 @@ class AlertPage(BasePage):
         alert_window.accept()
         text_result = self.element_is_visible(self.locators.PROMPT_RESULT_TEXT).text
         return text, text_result
+
+class FramesPage(BasePage):
+
+    locators = FramesPageLocators()
+
+    def check_frame(self, frame_num):
+        frame_map = {
+            "frame1": self.locators.FIRST_FRAME,
+            "frame2": self.locators.SECOND_FRAME,
+        }
+        if frame_num not in frame_map:
+            raise ValueError(f"Unknown frame: {frame_num}")
+
+        frame = self.element_is_present(frame_map[frame_num])
+        width = frame.get_attribute("width")
+        height = frame.get_attribute("height")
+        self.driver.switch_to.frame(frame)
+        text = self.element_is_present(self.locators.TITLE_FRAME).text
+        self.driver.switch_to.default_content()
+        return [width, height, text]
+
+
+
+
 

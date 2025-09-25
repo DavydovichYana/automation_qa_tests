@@ -13,3 +13,8 @@ class AlertPageLocators:
     ALERT_WITH_PROMPT_BUTTON = (By.ID, 'promtButton')
     CONFIRM_RESULT_TEXT = (By.ID, 'confirmResult')
     PROMPT_RESULT_TEXT = (By.ID, 'promptResult')
+
+class FramesPageLocators:
+    FIRST_FRAME = (By.ID, 'frame1')
+    SECOND_FRAME = (By.ID, 'frame2')
+    TITLE_FRAME = (By.ID, 'sampleHeading')
