@@ -16,4 +16,8 @@ class Person:
     gender: str = None
     mobile_phone: str = None
 
+@dataclass
+class Color:
+    color_name: list = None
+
 

@@ -1,5 +1,5 @@
 from random import randint, Random, random, sample, choice
-from data.data import Person
+from data.data import Person, Color
 from faker import Faker
 
 from data.mappings import Gender
@@ -72,3 +72,9 @@ def generate_state_city():
     state = choice(list(STATE_CITIES.keys()))
     city = choice(STATE_CITIES[state])
     return state, city
+
+def generated_color():
+    yield Color(
+        color_name=["Red","Blue","Green","Yellow","Purple","Black","White","Voilet","Indigo","Magenta","Aqua"],
+    )
+

@@ -1,6 +1,8 @@
+import time
+
 import pytest
 
-from pages.widgets_page import AccodianPage
+from pages.widgets_page import AccodianPage, AutocompletePage
 
 
 class TestWidgets:
@@ -16,4 +18,30 @@ class TestWidgets:
             assert section_title.text == "Where does it come from?" and len(content) == 763, 'Ошибка во втором аккордеоне'
         else:
             assert section_title.text == "Why do we use it?" and len(content) == 613, 'Ошибка в третьем аккордеоне'
+
+
+    def test_fill_multi_autocomplete(self, driver):
+        autocomplit_page = AutocompletePage(driver, 'https://demoqa.com/auto-complete')
+        autocomplit_page.open()
+        colors = autocomplit_page.fill_input_multi()
+        colors_result = autocomplit_page.check_multi_color()
+        assert colors == colors_result, "Набор исходных и итоговых цветов не совпадает."
+        time.sleep(2)
+
+    def test_remove_multi(self, driver):
+        autocomplit_page = AutocompletePage(driver, 'https://demoqa.com/auto-complete')
+        autocomplit_page.open()
+        color = autocomplit_page.fill_input_multi()
+        count_value_before, count_value_after = autocomplit_page.remove_value_from_multi()
+        assert count_value_after == count_value_before - 1, "Цвет не удален или удалено более 1 цвета"
+        time.sleep(2)
+
+    def test_single_autocomplete(self, driver):
+        autocomplit_page = AutocompletePage(driver, 'https://demoqa.com/auto-complete')
+        autocomplit_page.open()
+        color = autocomplit_page.fill_input_single()
+        color_result = autocomplit_page.check_single_color()
+        assert color == color_result, "Введенный и итоговый цвет не совпадают"
+
+
 
