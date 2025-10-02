@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from pages.widgets_page import AccodianPage, AutocompletePage
+from pages.widgets_page import AccodianPage, AutocompletePage, DatePickerPage
 
 
 class TestWidgets:
@@ -42,6 +42,23 @@ class TestWidgets:
         color = autocomplit_page.fill_input_single()
         color_result = autocomplit_page.check_single_color()
         assert color == color_result, "Введенный и итоговый цвет не совпадают"
+
+    def test_change_date(self, driver):
+        date_page = DatePickerPage(driver, 'https://demoqa.com/date-picker')
+        date_page.open()
+        value_date_before, value_date_after = date_page.select_date()
+        assert value_date_before != value_date_after, "Дата не изменена"
+
+    def test_change_date_and_time(self, driver):
+        date_page = DatePickerPage(driver, 'https://demoqa.com/date-picker')
+        date_page.open()
+        value_date_before, value_date_after = date_page.select_date_and_time()
+        time.sleep(2)
+        print(value_date_before, value_date_after)
+        assert value_date_before != value_date_after, "Дата не изменена"
+
+
+
 
 
 
