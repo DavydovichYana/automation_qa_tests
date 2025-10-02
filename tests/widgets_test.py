@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from pages.widgets_page import AccodianPage, AutocompletePage, DatePickerPage
+from pages.widgets_page import AccodianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressBarPage
 
 
 class TestWidgets:
@@ -56,6 +56,20 @@ class TestWidgets:
         time.sleep(2)
         print(value_date_before, value_date_after)
         assert value_date_before != value_date_after, "Дата не изменена"
+
+    def test_slider(self, driver):
+        slider_page = SliderPage(driver, 'https://demoqa.com/slider')
+        slider_page.open()
+        before, after = slider_page.check_slider()
+        assert before != after, 'Начальное и конечное значение совпадают'
+
+
+    def test_progress_bar(self, driver):
+        progress_bar_page = ProgressBarPage(driver, 'https://demoqa.com/progress-bar')
+        progress_bar_page.open()
+        value = progress_bar_page.check_progress_bar()
+        assert value != 0, 'Прогресс-бар не отработал'
+
 
 
 

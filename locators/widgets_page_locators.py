@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 
+from pages.base_page import BasePage
+
 
 class AccodianPageLocators:
     SECTION_FIRST = (By.ID, 'section1Heading')
@@ -33,3 +35,11 @@ class DatePickerPageLocators:
 
     TIME_DATE_YEAR_SEARCH_OLD = (By.CSS_SELECTOR, '.react-datepicker__navigation--years-previous')
     TIME_DATE_YEAR_SEARCH_NEW = (By.CSS_SELECTOR, '.react-datepicker__navigation--years-upcoming')
+
+class SliderPageLocators:
+    INPUT_SLIDER = (By.CSS_SELECTOR, 'input[class="range-slider range-slider--primary"]')
+    SLIDER_VALUE = (By.ID, 'sliderValue')
+
+class ProgressBarPageLocators():
+    PROGRESS_BAR_BUTTON = (By.ID, 'startStopButton')
+    PROGRESS_BAR_VALUE = (By.CSS_SELECTOR, 'div[role="progressbar"]')
