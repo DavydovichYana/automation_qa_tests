@@ -2,23 +2,23 @@ import time
 
 import pytest
 
-from pages.widgets_page import AccodianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressBarPage
+from pages.widgets_page import AccodianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage
 
 
 class TestWidgets:
 
     @pytest.mark.parametrize("accordian_num", ["first", "second", "third"])
-    def test_accordian(self,driver,accordian_num):
+    def test_accordian(self, driver, accordian_num):
         accordian_page = AccodianPage(driver, 'https://demoqa.com/accordian')
         accordian_page.open()
         section_title, content = accordian_page.check_accordian(accordian_num)
         if accordian_num == "first":
             assert section_title.text == "What is Lorem Ipsum?" and len(content) == 574, 'Ошибка в первом аккордеоне'
         elif accordian_num == "second":
-            assert section_title.text == "Where does it come from?" and len(content) == 763, 'Ошибка во втором аккордеоне'
+            assert section_title.text == "Where does it come from?" and len(
+                content) == 763, 'Ошибка во втором аккордеоне'
         else:
             assert section_title.text == "Why do we use it?" and len(content) == 613, 'Ошибка в третьем аккордеоне'
-
 
     def test_fill_multi_autocomplete(self, driver):
         autocomplit_page = AutocompletePage(driver, 'https://demoqa.com/auto-complete')
@@ -63,16 +63,16 @@ class TestWidgets:
         before, after = slider_page.check_slider()
         assert before != after, 'Начальное и конечное значение совпадают'
 
-
     def test_progress_bar(self, driver):
         progress_bar_page = ProgressBarPage(driver, 'https://demoqa.com/progress-bar')
         progress_bar_page.open()
         value = progress_bar_page.check_progress_bar()
         assert value != 0, 'Прогресс-бар не отработал'
 
-
-
-
-
-
-
+    @pytest.mark.parametrize("name_tab", ["what", "origin", "use", "more"])
+    def test_tabs(self, driver, name_tab):
+        tab_titles = {"what": "What", "origin": "Origin", "use": "Use", "more": "More"}
+        tabs = TabsPage(driver, 'https://demoqa.com/tabs')
+        tabs.open()
+        button_text, len_content = tabs.check_tabs(name_tab)
+        assert button_text == tab_titles[name_tab] and len_content != 0, f"Вкладка {button_text} работает некорректно."

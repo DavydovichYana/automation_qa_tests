@@ -43,3 +43,13 @@ class SliderPageLocators:
 class ProgressBarPageLocators():
     PROGRESS_BAR_BUTTON = (By.ID, 'startStopButton')
     PROGRESS_BAR_VALUE = (By.CSS_SELECTOR, 'div[role="progressbar"]')
+
+class TabsPageLocators:
+    TABS_WHAT = (By.ID, 'demo-tab-what')
+    TABS_WHAT_CONTENT = (By.ID, 'demo-tabpane-what')
+    TABS_ORIGIN = (By.ID, 'demo-tab-origin')
+    TABS_ORIGIN_CONTENT = (By.ID, 'demo-tabpane-origin')
+    TABS_USE = (By.ID, 'demo-tab-use')
+    TABS_USE_CONTENT = (By.ID, 'demo-tabpane-use')
+    TABS_MORE = (By.ID, 'demo-tab-more')
+    TABS_MORE_CONTENT = (By.ID, 'demo-tabpane-more')

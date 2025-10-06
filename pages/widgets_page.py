@@ -7,7 +7,7 @@ from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_page_locators import AccodianPageLocators, AutocompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressBarPageLocators
+    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators
 from pages.base_page import BasePage
 
 
@@ -38,11 +38,12 @@ class AccodianPage(BasePage):
 
         return [section_title, content]
 
+
 class AutocompletePage(BasePage):
     locators = AutocompletePageLocators()
 
     def fill_input_multi(self):
-        colors = random.sample(next(generated_color()).color_name,k=random.randint(1,11))
+        colors = random.sample(next(generated_color()).color_name, k=random.randint(1, 11))
         for c in colors:
             input_multi = self.element_is_clickable(self.locators.MULTIPLE_INPUT)
             input_multi.send_keys(c)
@@ -66,7 +67,7 @@ class AutocompletePage(BasePage):
         return colors
 
     def fill_input_single(self):
-        color = random.sample(next(generated_color()).color_name,k=1)
+        color = random.sample(next(generated_color()).color_name, k=1)
         input_single = self.element_is_clickable(self.locators.SINGLE_INPUT)
         input_single.send_keys(color)
         input_single.send_keys(Keys.ENTER)
@@ -75,6 +76,7 @@ class AutocompletePage(BasePage):
     def check_single_color(self):
         color_in_input = self.element_is_visible(self.locators.SINGLE_VALUE)
         return color_in_input.text
+
 
 class DatePickerPage(BasePage):
     locators = DatePickerPageLocators()
@@ -144,15 +146,17 @@ class DatePickerPage(BasePage):
             # Если нужного года нет, кликаем на кнопку назад
             self.element_is_clickable(self.locators.TIME_DATE_YEAR_SEARCH_OLD).click()
 
+
 class SliderPage(BasePage):
     locators = SliderPageLocators()
 
     def check_slider(self):
         value_before = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
         slider_input = self.element_is_visible(self.locators.INPUT_SLIDER)
-        self.action_drag_and_drop_by_offset(slider_input, random.randint(1,100), 0)
+        self.action_drag_and_drop_by_offset(slider_input, random.randint(1, 100), 0)
         value_after = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
         return value_before, value_after
+
 
 class ProgressBarPage(BasePage):
     locators = ProgressBarPageLocators()
@@ -165,9 +169,25 @@ class ProgressBarPage(BasePage):
         return value
 
 
+class TabsPage(BasePage):
+    locators = TabsPageLocators()
 
+    def check_tabs(self, name_tab):
+        tabs = {'what':
+                    {'title': self.locators.TABS_WHAT,
+                     'content': self.locators.TABS_WHAT_CONTENT},
+                'origin':
+                    {'title': self.locators.TABS_ORIGIN,
+                     'content': self.locators.TABS_ORIGIN_CONTENT},
+                'use':
+                    {'title': self.locators.TABS_USE,
+                     'content': self.locators.TABS_USE_CONTENT},
+                'more':
+                    {'title': self.locators.TABS_MORE,
+                     'content': self.locators.TABS_MORE_CONTENT}}
 
+        button = self.element_is_visible(tabs[name_tab]['title'])
+        button.click()
+        content = self.element_is_visible(tabs[name_tab]['content']).text
 
-
-
-
+        return button.text, len(content)
