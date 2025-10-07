@@ -53,3 +53,22 @@ class TabsPageLocators:
     TABS_USE_CONTENT = (By.ID, 'demo-tabpane-use')
     TABS_MORE = (By.ID, 'demo-tab-more')
     TABS_MORE_CONTENT = (By.ID, 'demo-tabpane-more')
+
+class ToolTipsPageLocators:
+    HOVER_BUTTON = (By.ID, 'toolTipButton')
+    TOOL_TIP_BUTTON = (By.CSS_SELECTOR, '#buttonToolTip')  # ← сам тултип
+
+    HOVER_INPUT = (By.ID, 'toolTipTextField')
+    TOOL_TIP_INPUT = (By.CSS_SELECTOR, '#textFieldToolTip')  # ← не button[aria…], а сам тултип
+
+    HOVER_LINK_CONTRARY = (By.XPATH, '//*[.="Contrary"]')
+    TOOL_TIP_LINK_CONTRARY = (By.CSS_SELECTOR, '#contraryTexToolTip')
+
+    HOVER_LINK_DIGITS = (By.XPATH, '//*[.="1.10.32"]')
+    TOOL_TIP_LINK_DIGITS = (By.CSS_SELECTOR, '#sectionToolTip')
+
+    TOOL_TIPS_INNERS = (By.CSS_SELECTOR, '.tooltip-inner')
+
+class MenuPageLocators:
+    MENU_ITEM_LIST = (By.CSS_SELECTOR, 'ul[id="nav"] li a')
+

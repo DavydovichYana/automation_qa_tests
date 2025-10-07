@@ -2,7 +2,8 @@ import time
 
 import pytest
 
-from pages.widgets_page import AccodianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage
+from pages.widgets_page import AccodianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage, \
+    ToolTipsPage, MenuPage
 
 
 class TestWidgets:
@@ -76,3 +77,21 @@ class TestWidgets:
         tabs.open()
         button_text, len_content = tabs.check_tabs(name_tab)
         assert button_text == tab_titles[name_tab] and len_content != 0, f"Вкладка {button_text} работает некорректно."
+
+
+    def test_tool_tips(self, driver):
+        tool_tips_page = ToolTipsPage(driver, 'https://demoqa.com/tool-tips')
+        tool_tips_page.open()
+        text_button, text_input, text_contrary, text_digits = tool_tips_page.check_tool_tips()
+        assert text_button == "You hovered over the Button", "Неверный текст тултипа"
+        assert text_input == "You hovered over the text field", "Неверный текст тултипа"
+        assert text_contrary == "You hovered over the Contrary", "Неверный текст тултипа"
+        assert text_digits == "You hovered over the 1.10.32", "Неверный текст тултипа"
+
+    def test_menu(self, driver):
+        menu_page = MenuPage(driver, 'https://demoqa.com/menu#')
+        menu_page.open()
+        data = menu_page.check_menu()
+        expected_menu = ['Main Item 1', 'Main Item 2', 'Sub Item', 'Sub Item', 'SUB SUB LIST »', 'Sub Sub Item 1', 'Sub Sub Item 2', 'Main Item 3']
+        assert data == expected_menu
+        print(data)

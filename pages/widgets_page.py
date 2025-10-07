@@ -7,7 +7,7 @@ from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_page_locators import AccodianPageLocators, AutocompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators
+    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators
 from pages.base_page import BasePage
 
 
@@ -191,3 +191,36 @@ class TabsPage(BasePage):
         content = self.element_is_visible(tabs[name_tab]['content']).text
 
         return button.text, len(content)
+
+
+class ToolTipsPage(BasePage):
+    locators = ToolTipsPageLocators()
+
+    def get_text_from_tool_tips(self, hover_elem, wait_elem):
+        self.move_by_offset(500, 500)
+        element = self.element_is_present(hover_elem)
+        self.action_move_to_element(element)
+        self.element_is_visible(wait_elem)
+        tool_tip_text = self.element_is_visible(self.locators.TOOL_TIPS_INNERS).text
+        return tool_tip_text
+
+    def check_tool_tips(self):
+        tool_tip_text_button = self.get_text_from_tool_tips(self.locators.HOVER_BUTTON, self.locators.TOOL_TIP_BUTTON)
+        tool_tip_text_input = self.get_text_from_tool_tips(self.locators.HOVER_INPUT, self.locators.TOOL_TIP_INPUT)
+        tool_tip_text_contrary = self.get_text_from_tool_tips(self.locators.HOVER_LINK_CONTRARY, self.locators.TOOL_TIP_LINK_CONTRARY)
+        tool_tip_text_digits = self.get_text_from_tool_tips(self.locators.HOVER_LINK_DIGITS, self.locators.TOOL_TIP_LINK_DIGITS)
+        return tool_tip_text_button, tool_tip_text_input, tool_tip_text_contrary, tool_tip_text_digits
+
+
+class MenuPage(BasePage):
+    locators = MenuPageLocators()
+
+    def check_menu(self):
+        menu_item_list = self.elements_are_present(self.locators.MENU_ITEM_LIST)
+        data = []
+        for item in menu_item_list:
+            self.action_move_to_element(item)
+            data.append(item.text)
+        return data
+
+
