@@ -1,4 +1,4 @@
-from pages.interactions_page import SortablePage, SelectablePage, ResizablePage
+from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage
 
 
 class TestInteractions:
@@ -27,5 +27,32 @@ class TestInteractions:
         assert ('500px', '300px') == max_size_resizable_box, 'Неверный максимальный размер изменяемого окна'
         assert ('150px', '150px') == min_size_resizable_box, 'Неверный минимальный размер изменяемого окна'
         assert max_size_resizable != min_size_resizable, 'Окно не изменилось по размеру'
+
+    def test_drop_simple(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        text = droppable_page.drop_simple()
+        assert text == 'Dropped!', 'Элемент не перемещен'
+
+    def test_drop_accept(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        drop_text_not_accept, drop_text_accept = droppable_page.drop_accept()
+        assert drop_text_not_accept == 'Drop here' and drop_text_accept == 'Dropped!', 'Элемент не перемещен или ошибка при перемещении'
+
+    def test_drop_prevent(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        text_not_greedy_box, text_not_greedy_inner_box, text_greedy_box, text_greedy_inner_box = droppable_page.drop_prevent()
+        assert text_not_greedy_box == 'Dropped!' and text_not_greedy_inner_box == 'Dropped!', 'Элемент не перемещен или ошибка при перемещении'
+        assert text_greedy_box == 'Outer droppable' and text_greedy_inner_box == 'Dropped!', 'Элемент не перемещен или ошибка при перемещении'
+
+    def test_drop_revert(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        position_after_move, position_after_revert = droppable_page.drop_revert_graggable('will')
+        assert position_after_move != position_after_revert, 'Элемент не вернулся на свое место после перетаскивания'
+        position_after_move, position_after_revert = droppable_page.drop_revert_graggable('not_will')
+        assert position_after_move == position_after_revert, 'Элемент не остался на месте после перетаскивания'
 
 
