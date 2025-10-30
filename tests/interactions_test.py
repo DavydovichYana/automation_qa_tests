@@ -56,3 +56,4 @@ class TestInteractions:
         assert position_after_move == position_after_revert, 'Элемент не остался на месте после перетаскивания'
 
 
+
